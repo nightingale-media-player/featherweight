@@ -2,7 +2,7 @@
 ABOUT
 ===============
 
-Featherweight is an addons site for Mozilla based software products. Contrary to the Zamboni platform, Featherweight is written in PHP, based on the CodeIgniter framework, and aims to be a more lightweight, simplistic alternative.
+Featherweight is an addons site for Mozilla based software products. Contrary to the Zamboni platform, it is written in PHP. Featherweight is based on the CodeIgniter framework, and aims to be a more lightweight, simplistic alternative.
 
 Since many opensource projects use free or shared hosting, sometimes php is the best way to go. In terms of performance, not having a persistent process is sometimes required, such as with Dreamhost.
 
@@ -13,3 +13,13 @@ LICENSE
 Featherweight is originally conceived and written by Matt Parnell/ilikenwf, and is (C) Copyright 2011 Matt Parnell; however, it is licensed under the GNU GPLv3.
 
 If you would like to support development, please support the Nightingale project with code contributions (to Featherweight or Nightingale itself) ...just visit our forums at http://getnightingale.com or join us in IRC on MozNet, in #nightingale
+
+===============
+INSTALL
+===============
+
+All that's required is a standard LAMP setup - Linux, Apache, MySQL, and PHP...
+
+From there, decide where in your webroot or subdomain, or vhost you'd like to put Featherweight, and clone the git repo there. Then, edit [to be determined].php to set your database details.
+
+Then, navigate your browser to the location you installed featherweight, and it will guide you through the setup process.
