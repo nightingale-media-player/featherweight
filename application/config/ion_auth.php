@@ -127,7 +127,7 @@
 	 * Salt length needs to be at least as long 
 	 * as the minimum password length.
 	 **/
-	$config['salt_length'] = 10;
+	$config['salt_length'] = 30;
 
 	/**
 	 * Should the salt be stored in the database?
