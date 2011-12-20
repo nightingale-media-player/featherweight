@@ -52,17 +52,17 @@ $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = '';
 $db['default']['password'] = '';
 $db['default']['database'] = '';
-$db['default']['dbdriver'] = 'mysqli';
+$db['default']['dbdriver'] = 'mysqli'; //MySQLi is HIGHLY suggested
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
+$db['default']['cache_on'] = FALSE; //set to true and configure the next option for db caching (Reccomended)
+$db['default']['cachedir'] = '/path/to/featherweight/cache/db'; //make sure permissions are 777 on cache and db
 $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+$db['default']['stricton'] = TRUE;
 
 
 /* End of file database.php */
