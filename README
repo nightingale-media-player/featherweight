@@ -38,7 +38,7 @@ and PHP...
 From there, decide where in your webroot or subdomain, or vhost you'd 
 like to put Featherweight, and clone the git repo there. Then, edit 
 application/config/database.php to set your database details. YOU MUST
-set the absolute path to featherweight/cache/db and turn caching on in
+set the absolute path to featherweight/application/cache/db and turn caching on in
 order to cache database queries (HIGHLY RECCOMENDED!).
 
 Further information for configuration is detailed in each of the files 
