@@ -37,7 +37,9 @@ and PHP...
 
 From there, decide where in your webroot or subdomain, or vhost you'd 
 like to put Featherweight, and clone the git repo there. Then, edit 
-[to be determined].php to set your database details.
+application/config/database.php to set your database details. Further
+information for config is detailed in each of the files in 
+application/config/
 
 Then, navigate your browser to the location you installed featherweight,
 and it will guide you through the setup process.
