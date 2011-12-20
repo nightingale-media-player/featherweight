@@ -19,6 +19,10 @@ Featherweight is originally conceived and written by
 Matt Parnell/ilikenwf, and is (C) Copyright 2011 Matt Parnell; however, 
 it is licensed under the GNU GPLv3.
 
+This README must be included in any distribution, modification, or live
+version of the application in order to keep credit to those due and
+to affirm it's status under the GPLv3.
+
 If you would like to support development, please support the 
 Nightingale project with code contributions (to Featherweight 
 or Nightingale itself) ...just visit our forums at 
