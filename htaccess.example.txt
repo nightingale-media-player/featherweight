@@ -1,4 +1,4 @@
 RewriteEngine on
-# Exclusions from the rewrite rule - images, robots.txt, and indx.php itself
+# Exclusions from the rewrite rule - images, robots.txt, and index.php itself
 RewriteCond $1 !^(index\.php|images|robots\.txt)
 RewriteRule ^(.*)$ /index.php/$1 [L]
