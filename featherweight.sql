@@ -52,8 +52,6 @@ CREATE TABLE IF NOT EXISTS `meta` (
   `user_id` mediumint(8) unsigned DEFAULT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
-  `company` varchar(100) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -61,8 +59,8 @@ CREATE TABLE IF NOT EXISTS `meta` (
 -- Dumping data for table `meta`
 --
 
-INSERT INTO `meta` (`id`, `user_id`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, 1, 'Addons', 'Admin', 'Nightingale', '555-555-5555');
+INSERT INTO `meta` (`id`, `user_id`, `first_name`, `last_name`) VALUES
+(1, 1, 'Addons', 'Admin');
 
 -- --------------------------------------------------------
 
