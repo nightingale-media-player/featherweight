@@ -4,7 +4,7 @@ class Xpi_parser
 {
   /**
    * Recursive fill raw metadata array with data from reader, parsing using
-   * htmlentities.
+   * htmlentities and trim.
    * 
    * @return void
    */
@@ -21,7 +21,8 @@ class Xpi_parser
         $this->fillMeta($reader, $meta[$nodename]);
       }
       else if ($reader->nodeType == XMLREADER::TEXT){
-        $meta[] = htmlentities($reader->value, ENT_QUOTES, 'UTF-8', false);
+        $value = trim($reader->value);
+        $meta[] = htmlentities($value, ENT_QUOTES, 'UTF-8', false);
       }
       else if ($reader->nodeType == XMLREADER::END_ELEMENT){
         return;
@@ -47,7 +48,7 @@ class Xpi_parser
    * Get raw metadata from XPI file. Data is ONLY EXTRACTED.
    * Usually there is no need to access this directly, except you need
    * to access custom tags for special features within your application.
-   * All Data is parsed usign htmlentities.
+   * All Data is parsed usign htmlentities and trim.
    *
    * @return array of arrays for each metadata, which contain the metadatas
    * found, or null if the file is invalid.
@@ -94,6 +95,20 @@ class Xpi_parser
       $tgApp['maxVersion'] =
           $raw['targetApplication']['::Description']['maxVersion'][$i];
       $result['targetApplication'][] = $tgApp;
+    }
+    
+    if (array_key_exists('requires', $raw)){
+      $result['requires'] = array();
+      $reqCount = count($raw['requires']['::Description']['id']);
+      for ($i = 0; $i < $reqCount; $i++){
+        $rqExt = array();
+        $rqExt['id'] = $raw['requires']['::Description']['id'][$i];
+        $rqExt['minVersion'] =
+            $raw['requires']['::Description']['minVersion'][$i];
+        $rqExt['maxVersion'] =
+            $raw['requires']['::Description']['maxVersion'][$i];
+        $result['requires'][] = $rqExt;
+      }
     }
     
     $localizeableTag = array( // false: only one value per locale
