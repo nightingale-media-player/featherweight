@@ -142,7 +142,7 @@ class Xpi_parser
    * @return zip url pointing to the image or null
    */
   public function getIconURL($filename, $url){
-    // not implemented yet
+    // not implemented yet TODO
     return null;
   }
 }
