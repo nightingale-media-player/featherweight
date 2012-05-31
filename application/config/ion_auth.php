@@ -3,31 +3,81 @@
 * Name:  Ion Auth Config
 * 
 * Author: Ben Edmunds
-* 	  ben.edmunds@gmail.com
+* 		  ben.edmunds@gmail.com
 *         @benedmunds
 *          
 * Added Awesomeness: Phil Sturgeon
 * 
-* Location: http://github.com/benedmunds/CodeIgniter-Ion-Auth/
+* Location: http://github.com/benedmunds/ion_auth/
 *          
 * Created:  10.01.2009 
 * 
 * Description:  Modified auth system based on redux_auth with extensive customization.  This is basically what Redux Auth 2 should be.
 * Original Author name has been kept but that does not mean that the method has not been modified.
+*
+*
+* Bcrypt Implementation
+* by: Jason Howard
+* 	 jasondhoward@gmail.com
+* 	 vzio.com
 * 
 */
 
 	/**
 	 * Tables.
 	 **/
-	$config['tables']['groups']  = 'groups';
-	$config['tables']['users']   = 'users';
-	$config['tables']['meta']    = 'meta';
+	$config['tables']['groups']          = 'groups';
+	$config['tables']['users']           = 'users';
+	$config['tables']['users_groups']    = 'users_groups';
+	$config['tables']['login_attempts']  = 'login_attempts';
+
+    /**
+	 * Hash Method  (sha1 or bcrypt)
+	 *
+	 * Bcrypt is available in PHP 5.3+
+	 *
+	 * IMPORTANT: Based on the recommendation by many professionals, it is highly recommended to use
+	 * 		    bcrypt instead of sha1.
+	 *
+	 *
+	 * NOTE: 	If you use bcrypt you will need to increase your password column character limit
+	 * 		    to (80)
+	 *
+	 * Below there is "default_rounds" setting.  This defines how strong the encryption will be,
+	 * but remember the more rounds you set the longer it will take to hash (CPU usage) So adjust
+	 * this based on your server hardware.
+	 * 
+	 * If you are using Bcrypt the Admin password field also needs to be changed in order login as admin:
+	 * $2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36
+	 * 		    
+	 */
+	
+	$config['hash_method'] = 'bcrypt';		// IMPORTANT: Make sure this is set to either sha1 or bcrypt 
+	
+	/**
+	 * Default rounds used for Bcrypt only 
+	 */
+	$config['default_rounds'] = 8;		// This does not apply if random_rounds is set to true
+	
+	/**
+	 *
+	 * Random Rounds encrypts each new user's password using random rounds
+	 * 
+	 *
+	 * Becareful how high you set max_rounds, I would do your own testing on how long it takes
+	 * to encrypt with x rounds.
+	 *
+	 */	
+	$config['random_rounds'] = true;
+	$config['min_rounds'] = 5;
+	$config['max_rounds'] = 12;
+	
+
 	
 	/**
 	 * Site Title, example.com
 	 */
-	$config['site_title']		   = "addons.getnightingale.com";
+	$config['site_title']		   = "addons.getnightingale.com";;
 	
 	/**
 	 * Admin Email, admin@example.com
@@ -45,16 +95,12 @@
 	$config['admin_group']         = 'admin';
 	 
 	/**
-	 * Meta table column you want to join WITH.
+	 * Users table column and Group table column you want to join WITH.
 	 * Joins from users.id
+	 * Joins from groups.id
 	 **/
-	$config['join']                = 'user_id';
-	
-	/**
-	 * Columns in your meta table,
-	 * id not required.
-	 **/
-	$config['columns']             = array('first_name', 'last_name');
+	$config['join']['users']       = 'user_id';
+	$config['join']['groups']      = 'group_id';
 	
 	/**
 	 * A database column which is used to
@@ -75,7 +121,12 @@
 	/**
 	 * Email Activation for registration
 	 **/
-	$config['email_activation']    = false;
+	$config['email_activation']    = true;
+
+	/**
+	 * Manual Activation for registration
+	 **/
+	$config['manual_activation']    = false;
 	
 	/**
 	 * Allow users to be remembered and enable auto-login
@@ -91,12 +142,21 @@
 	 * Extend the users cookies everytime they auto-login
 	 **/
 	$config['user_extend_on_login'] = false;
-	
+
 	/**
-	 * Type of email to send (HTML or text)
-	 * Default : html
+	 * Send Email using the builtin CI email class
+	 * if false it will return the code and the identity
 	 **/
-	$config['email_type'] = 'html';
+	$config['use_ci_email']= true;
+
+	/**
+	 * Email config - 
+	 * 	'file' = use the default CI config or use from a config file
+	 * 	array = manually set your email config settings
+	 **/
+	$config['email_config']         = array(
+		'mailtype' => 'html',
+	);
 	
 	/**
 	 * Folder where email templates are stored.
@@ -105,7 +165,7 @@
 	$config['email_templates']     = 'auth/email/';
 	
 	/**
-	 * activate Account Email Template
+	 * Activate Account Email Template
      * Default : activate.tpl.php
 	 **/
 	$config['email_activate']   = 'activate.tpl.php';
@@ -124,15 +184,36 @@
 	
 	/**
 	 * Salt Length
-	 * Salt length needs to be at least as long 
-	 * as the minimum password length.
 	 **/
 	$config['salt_length'] = 30;
 
 	/**
 	 * Should the salt be stored in the database?
+	 * This will change your password encryption algorithm, 
+	 * default password, 'password', changes to 
+	 * fbaa5e216d163a02ae630ab1a43372635dd374c0 with default salt.
 	 **/
 	$config['store_salt'] = true;
+	
+	/**
+	 * The number of seconds after which a forgot password request will
+	 * expire. If set to 0, forgot password requests will not expire.
+	 **/
+	$config['forgot_password_expiration'] = 0;
+	
+	/**
+	 * Track the number of failed login attempts for each user or ip. 
+	 **/
+	$config['track_login_attempts'] = true;
+
+	/**
+	 * Set the maximum number of failed login attempts.
+	 * This maximum is not enforced by the library, but is 
+	 * used by $this->ion_auth->is_max_login_attempts_exceeded().
+	 * The controller should check this function and act
+	 * appropriately. If this variable set to 0, there is no maximum.
+	 **/
+	$config['maximum_login_attempts'] = 7;
 	
 	/**
 	 * Message Start Delimiter
