@@ -1,4 +1,4 @@
-# REMEMBER: you must set  $config[‘index_page’]  to an empty string in
+# REMEMBER: you must set  $config['index_page']  to an empty string in
 # config.php before this will work!!!
 
 <IfModule mod_rewrite.c>
