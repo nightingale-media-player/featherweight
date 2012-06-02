@@ -51,7 +51,7 @@ class Test extends Controller{
     echo anchor('test/xpiparserStart', 'Start Testcase');
     
     echo '<h2>Add-on Model</h2>';
-    echo '<p>These tests will check if the add-on model works or not. You need a user named "addons admin" which will be used for testing purposes (this user exists by default).</p>';
+    echo '<p>These tests will check if the add-on model works or not. You need a user named "Administrator" which will be used for testing purposes (this user exists by default).</p>';
     echo anchor('test/addonmodelStart', 'Start Testcase');
   }
   
@@ -111,7 +111,7 @@ class Test extends Controller{
     echo 'Unlocalized Name: '.$meta['name']['default']."\n";
     echo 'Unlocalized Description: '.$meta['description']['default']."\n\n";
     
-    echo 'Insert Add-on to database, with some fake credits and locale, owned by \'addons admin\'...'."\n";
+    echo 'Insert Add-on to database, with some fake credits and locale, owned by \'Administrator\'...'."\n";
     $id = $this->addons->storeAddon($meta['id'], $meta['type'],
       array(
         array(
@@ -134,7 +134,7 @@ class Test extends Controller{
         'contributors' => array(),
         'translators' => array('nobody')
       ),
-      array('addons admin'));
+      array('Administrator'));
     echo 'New Add-on has ID: '.$id."\n\n";
     
     echo 'Query Add-on from Database [via id, locale=de]: ';
@@ -202,20 +202,20 @@ class Test extends Controller{
     echo "\n";
     
     echo 'Is admin owner:';
-    print_r($this->addons->isAddonOwner($id, 'addons admin'));
+    print_r($this->addons->isAddonOwner($id, 'Administrator'));
     echo "\n".'Is admin owner after removing him:';
-    $this->addons->removeAddonOwner($id, 'addons admin');
-    print_r($this->addons->isAddonOwner($id, 'addons admin'));
+    $this->addons->removeAddonOwner($id, 'Administrator');
+    print_r($this->addons->isAddonOwner($id, 'Administrator'));
     echo "\n".'Is admin owner after adding him:';
-    $this->addons->addAddonOwner($id, 'addons admin');
-    print_r($this->addons->isAddonOwner($id, 'addons admin'));
+    $this->addons->addAddonOwner($id, 'Administrator');
+    print_r($this->addons->isAddonOwner($id, 'Administrator'));
     echo "\n\n";
     
     echo 'Let the admin rate 3, then 5 stars... and download it 3 times, then list the first page of type add-ons:';
-    $this->addons->addAddonRating($id, 'addons admin', 3, 'Might have some issues...');
+    $this->addons->addAddonRating($id, 'Administrator', 3, 'Might have some issues...');
     $this->addons->incAddonVersionDownloadCount($id);
     sleep(10);
-    $this->addons->addAddonRating($id, 'addons admin', 5, 'EFFING LOVE IT!');
+    $this->addons->addAddonRating($id, 'Administrator', 5, 'EFFING LOVE IT!');
     $this->addons->incAddonVersionDownloadCount($id);
     $this->addons->incAddonVersionDownloadCount($id);
     print_r($this->addons->getAddonsByType(10,0,$meta['type']));

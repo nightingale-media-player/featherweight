@@ -24,12 +24,11 @@ DEFAULT CHARACTER SET = latin1;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Featherweight`.`users_groups` ;
 
-CREATE TABLE IF NOT EXISTS `users_groups` (
+CREATE TABLE IF NOT EXISTS `Featherweight`.`users_groups` (
   `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` MEDIUMINT(8) UNSIGNED NOT NULL,
   `group_id` MEDIUMINT(8) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`)
-);
+  PRIMARY KEY (`id`) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = latin1;
@@ -37,15 +36,15 @@ DEFAULT CHARACTER SET = latin1;
 -- -----------------------------------------------------
 -- Table `Featherweight`.`login_attempts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `login_attempts`;
+DROP TABLE IF EXISTS `Featherweight`.`login_attempts`;
 
-CREATE TABLE `login_attempts` (
+CREATE TABLE `Featherweight`.`login_attempts` (
   `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
   `ip_address` VARBINARY(16) NOT NULL,
   `login` VARCHAR(100) NOT NULL,
   `time` INT(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+)
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = latin1;
@@ -73,41 +72,10 @@ CREATE  TABLE IF NOT EXISTS `Featherweight`.`users` (
   `last_name` VARCHAR(50) DEFAULT NULL,
   `company` VARCHAR(100) DEFAULT NULL,
   `phone` VARCHAR(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) ,
-  CONSTRAINT `fk_users_groups`
-    FOREIGN KEY (`group_id` )
-    REFERENCES `Featherweight`.`groups` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id`) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = latin1;
-
-CREATE INDEX `fk_users_groups` ON `Featherweight`.`users` (`group_id` ASC) ;
-
-
--- -----------------------------------------------------
--- Table `Featherweight`.`meta`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `Featherweight`.`meta` ;
-
-CREATE  TABLE IF NOT EXISTS `Featherweight`.`meta` (
-  `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `user_id` MEDIUMINT(8) UNSIGNED NOT NULL ,
-  `first_name` VARCHAR(50) NULL DEFAULT NULL ,
-  `last_name` VARCHAR(50) NULL DEFAULT NULL ,
-  PRIMARY KEY (`id`) ,
-  CONSTRAINT `fk_meta_users1`
-    FOREIGN KEY (`user_id` )
-    REFERENCES `Featherweight`.`users` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = latin1;
-
-CREATE INDEX `fk_meta_users1` ON `Featherweight`.`meta` (`user_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `Featherweight`.`addons`
@@ -371,14 +339,12 @@ CREATE INDEX `fk_addon_ratings_addons1` ON `Featherweight`.`addon_ratings` (`add
 -- -----------------------------------------------------
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
 (1, '', 'Administrator', '$2a$10$5vjDMHEgWV5skr9ZcmG59eanRbsEDjyUOiULMHYku7bfVjhqRlpdK', '6f86b7f2168f0c5e7599cb5614270c', 'admin@admin.com', '28501cf96bab91b55bb0125104c158a096c0d695', NULL, NULL, NULL, 1338435150, 1338435150, 1, 'Admin', 'Istrator', 'Admin', '555-555-5555');
-INSERT INTO `meta` (`id`, `user_id`, `first_name`, `last_name`) VALUES
-(1, 1, 'Addons', 'Admin');
 INSERT INTO `groups` (`id`, `name`, `description`) VALUES
 (1, 'admin', 'Administrator'),
 (2, 'members', 'General User');
-INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
-	(1,1,1),
-	(1,1,2);
+INSERT INTO `users_groups` (`user_id`, `group_id`) VALUES
+	(1,1),
+	(1,2);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
