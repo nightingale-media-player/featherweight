@@ -276,35 +276,6 @@ CREATE INDEX `fk_addon_credits_addons1` ON `Featherweight`.`addon_credits` (`add
 
 
 -- -----------------------------------------------------
--- Table `Featherweight`.`addon_comments`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `Featherweight`.`addon_comments` ;
-
-CREATE  TABLE IF NOT EXISTS `Featherweight`.`addon_comments` (
-  `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `users_id` MEDIUMINT(8) UNSIGNED NOT NULL ,
-  `addons_id` MEDIUMINT(8) UNSIGNED NOT NULL ,
-  `created_on` INT(11) NOT NULL ,
-  `text` MEDIUMTEXT NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  CONSTRAINT `fk_addon_comments_users1`
-    FOREIGN KEY (`users_id` )
-    REFERENCES `Featherweight`.`users` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_addon_comments_addons1`
-    FOREIGN KEY (`addons_id` )
-    REFERENCES `Featherweight`.`addons` (`id` )
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_addon_comments_users1` ON `Featherweight`.`addon_comments` (`users_id` ASC) ;
-
-CREATE INDEX `fk_addon_comments_addons1` ON `Featherweight`.`addon_comments` (`addons_id` ASC) ;
-
-
--- -----------------------------------------------------
 -- Table `Featherweight`.`addon_ratings`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Featherweight`.`addon_ratings` ;
@@ -313,7 +284,7 @@ CREATE  TABLE IF NOT EXISTS `Featherweight`.`addon_ratings` (
   `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `users_id` MEDIUMINT(8) UNSIGNED NOT NULL ,
   `addons_id` MEDIUMINT(8) UNSIGNED NOT NULL ,
-  `text` MEDIUMTEXT NOT NULL ,
+  `text` MEDIUMTEXT ,
   `rating` TINYINT UNSIGNED NOT NULL ,
   `created_on` INT(11) NOT NULL ,
   PRIMARY KEY (`id`) ,

@@ -215,7 +215,7 @@ class Test extends Controller{
     $this->addons->addAddonRating($id, 'Administrator', 3, 'Might have some issues...');
     $this->addons->incAddonVersionDownloadCount($id);
     sleep(10);
-    $this->addons->addAddonRating($id, 'Administrator', 5, 'EFFING LOVE IT!');
+    $this->addons->addAddonRating($id, 'Administrator', 5, null);
     $this->addons->incAddonVersionDownloadCount($id);
     $this->addons->incAddonVersionDownloadCount($id);
     print_r($this->addons->getAddonsByType(10,0,$meta['type']));

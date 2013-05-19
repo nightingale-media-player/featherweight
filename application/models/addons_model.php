@@ -4,7 +4,7 @@
 if(!class_exists('CI_Model')) { class CI_Model extends Model {} }
 
 /**
- * Model for managing the add-ons, their tags, comments and ratings in the database.
+ * Model for managing the add-ons, their tags and ratings in the database.
  *
  * The model should prevent SQL injection even if it is directly accessible. If
  * you see anything not following this rule, please notify the developers!
@@ -83,15 +83,10 @@ class Addons_model extends CI_Model
    * Rating: Array containing
    *   'user': user that issued the rating
    *   'creationdate': date of adding the rating to featherweight
-   *   'text': text the user submitted
+   *   'text': text the user submitted, or null
    *   'rating': integer rating from 1 to 5 (stars or whatever the skinners decide)
    *   ---- Content only readable, will get generated
    *   'numPrevious': count of previous ratings by the same user
-   * 
-   * Comment: Array containing
-   *   'user': user that issued the comment
-   *   'creationdate': date of adding the comment to featherweight
-   *   'text': comment text
    *
    *
    * Notes to the database's internals:
@@ -841,57 +836,6 @@ class Addons_model extends CI_Model
     if ($query->num_rows() > 0){
       foreach ($query->result() as $row){
         $return[] = $this->generateRating($row);
-      }
-    }
-    return $result;
-  }
-  
-  /**
-   * Comment functions
-   * Used to comment add-ons, and manage these comments.
-   */
-  // adds a comment
-  public function addAddonComment($id, $comment){
-    $uid = $this->getIdForUser($user);
-    $curtime = strval(time());
-    
-    // Insert data
-    $this->db->query('
-      INSERT INTO addon_comments (users_id, addons_id, text, created_on)
-      VALUES ('.$uid.', '.strval(intval($id)).', '.$this->db->escape($comment).', '.$curtime.')');
-  }
-  
-  // removes a comment. This should be available for trusted members only, as it might destroy discussions in comments
-  public function removeAddonComment($id, $comment){
-    $uid = $this->getIdForUser($rating['user']);
-    // The following query assumes that it is not possible to comment more than one time within a millisecond for one add-on.
-    $this->db->query('DELETE FROM addon_comments WHERE users_id = '.$uid.' AND creationdate = '.strval(intval($rating['creationdate'])).' AND addons_id = '.strval(intval($id)));
-  }
-  
-  // get a list of n most recent comments, ofsetting page pages, for an add-on. Hint: this function returns REVERSE order!
-  public function getAddonComments($id, $n, $page){
-    $query = $this->db->query('
-      SELECT
-        users.username AS user,
-        users.id AS userId,
-        addon_comments.created_on AS creationdate,
-        addon_comments.text AS text,
-        addon_comments.addons_id AS addonId
-      FROM
-        addon_comments,
-        INNER JOIN users ON (addon_ratings.users_id = users.id)
-      WHERE
-        addon_comments.addon_id = '.strval(intval($id)).'
-      ORDER BY addon_comments.id ASC
-      LIMIT '.strval(intval($page*$n)).','.strval(intval($n)));
-    $result = array();
-    if ($query->num_rows() > 0){
-      foreach ($query->result() as $row){
-        $return[] = array(
-          'user' => $row->user,
-          'creationdate' => $row->creationdate,
-          'text' => $row->text,
-        );
       }
     }
     return $result;
